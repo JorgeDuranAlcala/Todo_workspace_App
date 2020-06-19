@@ -22,7 +22,7 @@ const MyCard = (props: Props) => {
     const { task } = props
 
     return (
-        <Card className={classes.root} variant="outlined">
+        <Card className={classes.root} >
             <CardContent>
                 <Typography variant="h5">
                     { task }
