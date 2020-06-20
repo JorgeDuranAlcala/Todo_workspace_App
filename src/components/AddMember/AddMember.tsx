@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       padding: '2.5vmin 0'
+    },
+    btn: {
+      marginRight: '2vmin'
     }
   }),
 );
@@ -72,7 +75,7 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <Button type="button" variant="outlined" color="secondary" onClick={handleOpen}>
+      <Button type="button" className={classes.btn} variant="outlined" color="secondary" onClick={handleOpen}>
         Add Members
       </Button>
       <Modal

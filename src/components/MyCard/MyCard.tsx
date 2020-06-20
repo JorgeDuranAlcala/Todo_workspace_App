@@ -10,7 +10,7 @@ interface Props {
 const styles = makeStyles({
     root: {
         width: '80%',
-        height: '12%',
+        height: '8%',
         margin: '4vmin 0',
         textAlign: 'left'
     }

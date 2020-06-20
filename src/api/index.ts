@@ -1,23 +1,22 @@
 import { ResponseAllTodos, responseRegisterUsers, User } from "../interfaces/responseTodo";
 import { getLocalStorage } from "../utils/manageLocalStorage";
 
-export const getAllTodos = async (): Promise<ResponseAllTodos> => {
+export const getAllTodos = async (groupName: string): Promise<ResponseAllTodos> => {
     const token = getLocalStorage('token')
-    const data = await fetch('http://localhost:8080/api/todos', 
-    {   method: 'get', 
+    return await fetch(`http://localhost:8080/api/todos/${groupName}`, {
+        method: 'get',
         headers: {
-            'Content-type': 'application/json',
-            Autherization: `Bearer ${token}`
-        } 
-    })
-    .then( res => {
-        if(!res.ok) {
-            throw new Error(res.statusText);
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json'
         }
-        return res.json() as Promise<ResponseAllTodos>
     })
+        .then( res => {
+            if(!res.ok) {
+                throw new Error(res.statusText);
+            }
+            return res.json() as Promise<ResponseAllTodos>
+        })
 
-    return data 
 }
 
 export const registerUser = async (body: User): Promise<responseRegisterUsers> => {

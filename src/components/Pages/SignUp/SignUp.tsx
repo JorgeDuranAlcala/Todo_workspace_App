@@ -53,7 +53,8 @@ const SignUp = (props: Props) => {
         try {
             const data = await registerUser(state);
             console.log(data)
-            const { token } = data
+            const { token, userSp, group: { groupName } } = data
+            setLocalStorage('currGroup', groupName)
             setLocalStorage('token', token)
         } catch (error) {
             console.log(error)

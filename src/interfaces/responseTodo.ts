@@ -1,12 +1,13 @@
 export interface Todo {
     _id?: string;
-    title: string;
+    title?: string;
     description: string;
     group?: string;
 }
 
 interface Group {
-    groupId: string
+    groupId: string;
+    groupName: string;
 }
 
 export interface User {
@@ -36,5 +37,6 @@ export interface responseAddTodo {
 export interface responseRegisterUsers {
     message?: string;
     userSp: User;
-    token: string
+    token: string,
+    group: Group
 }

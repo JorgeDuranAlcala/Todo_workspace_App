@@ -11,7 +11,9 @@ const drawerWidth = 250
 
 const useStyles = makeStyles({
   main: {
-    width: `calc(100% - ${drawerWidth}px)`
+    width: `calc(100% - ${drawerWidth}px)`,
+    maxHeight: 'auto',
+    height: '100vh'
   },
   drawer: {
     width: drawerWidth,
