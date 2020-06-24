@@ -3,6 +3,7 @@ export interface Todo {
     title?: string;
     description: string;
     group?: string;
+    isDone?: boolean;
 }
 
 interface Group {
@@ -39,4 +40,14 @@ export interface responseRegisterUsers {
     userSp: User;
     token: string,
     group: Group
+}
+
+export interface responseDeleteTodo {
+    message?: string;
+    removedTodo?: Todo;
+}
+
+export interface responseUpdateTodo {
+    message?: string;
+    todoUpdated?: Todo;
 }

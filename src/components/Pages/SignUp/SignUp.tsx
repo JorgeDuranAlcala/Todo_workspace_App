@@ -53,7 +53,7 @@ const SignUp = (props: Props) => {
         try {
             const data = await registerUser(state);
             console.log(data)
-            const { token, userSp, group: { groupName } } = data
+            const { token, group: { groupName } } = data
             setLocalStorage('currGroup', groupName)
             setLocalStorage('token', token)
         } catch (error) {
@@ -77,7 +77,7 @@ const SignUp = (props: Props) => {
                     <Typography variant="h4">Sign Up</Typography>
                     <TextField className={cls.fiels} name="username" onChange={e => handleChange(e)} label="Username" variant="outlined"/>
                     <TextField className={cls.fiels} name="email" onChange={e => handleChange(e)} label="Email" variant="outlined"/>
-                    <TextField className={cls.fiels} name="password" onChange={e => handleChange(e)} label="Password" variant="outlined"/>
+                    <TextField className={cls.fiels} name="password" onChange={e => handleChange(e)} label="Password" type="password" variant="outlined"/>
                     <TextField className={cls.fiels} name="groupName" onChange={e => handleChange(e)} label="Group name" variant="outlined"/>
                     <Button type="submit" color="primary" variant="contained" >Sign Up</Button>
                 </form>

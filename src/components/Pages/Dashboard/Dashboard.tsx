@@ -54,20 +54,20 @@ const Dashboard = (props: Props) => {
         const fetchData = async () => {
             try {       
                const data = await getAllTodos(grpName) as ResponseAllTodos;
-                console.log(data)
+                //console.log(data)
                 setAllTodos(data.todos)
             } catch (error) {
                 console.log(error)
             }
         }
         fetchData()
-    }, [allTodos])
+    }, [allTodos, grpName])
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()    
         try {
             const data = await createTodo(grpName, state)  
-            console.log(data)
+            //console.log(data)
         } catch (error) {
             console.log(error)
         }
@@ -91,7 +91,7 @@ const Dashboard = (props: Props) => {
                 <Input onSubmit={handleSubmit} handleChange={handleChange} />
             </div>
             <div className={cls.cont}>
-            { allTodos && allTodos.map( (todo, index) => <Todo key={index} desc={todo.description} />) }      
+            { allTodos && allTodos.map( (todo, index) => <Todo key={index} desc={todo.description} isDone={todo.isDone} id={todo._id} />) }      
             </div>
         </div>
     )
