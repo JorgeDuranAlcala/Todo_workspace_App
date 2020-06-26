@@ -1,4 +1,4 @@
-import { ResponseAllTodos, responseRegisterUsers, User } from "../interfaces/responseTodo";
+import { ResponseAllTodos, responseRegisterUsers, User, responseGroup } from "../interfaces/responseTodo";
 import { getLocalStorage } from "../utils/manageLocalStorage";
 
 export const getAllTodos = async (groupName: string): Promise<ResponseAllTodos> => {
@@ -53,10 +53,10 @@ export const loginUser = async (body: User): Promise<{message: string, token: st
     return data 
 }
 
-export const addNewGroups = async (groupName: string) => {
+export const addNewGroups = async (groupName: string): Promise<responseGroup> => {
 
     const token = getLocalStorage('token');
-   const data =  await fetch(`http://localhost:8080/api/groups`, {
+   return await fetch(`http://localhost:8080/api/groups`, {
         method: 'post', 
         headers: {
             Authorization: `Bearer ${token}`,
@@ -68,10 +68,30 @@ export const addNewGroups = async (groupName: string) => {
         if(!res.ok) {
             console.error(res.statusText);
         }
-        return res.json()
+        return res.json() as Promise<responseGroup>
     })
 
-    return data
+
+}
+
+export const addNewMember = async (groupName: string, member: string): Promise<responseGroup> => {
+
+    const token = getLocalStorage('token');
+   return await fetch(`http://localhost:8080/api/updateGroup`, {
+        method: 'PUT', 
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-type': 'application/json',
+        }, 
+        body: JSON.stringify({ groupName, member })
+    })
+    .then(res=> {
+        if(!res.ok) {
+            console.error(res.statusText);
+        }
+        return res.json() as Promise<responseGroup>
+    })
+
 
 }
 

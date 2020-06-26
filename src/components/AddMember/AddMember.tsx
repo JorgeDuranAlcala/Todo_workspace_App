@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Typography, TextField, Button } from '@material-ui/core';
+import { addNewMember } from '../../api';
+import { getLocalStorage } from '../../utils/manageLocalStorage';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -49,6 +51,7 @@ export default function SimpleModal() {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  const [input, setInput] = React.useState('');
 
   const handleOpen = () => {
     setOpen(true);
@@ -59,14 +62,25 @@ export default function SimpleModal() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        console.log(e.target.value)
+        const { value }  = e.target;
+        setInput(value)
   };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setOpen(false)
+    const groupName = getLocalStorage('currGroup')
+    if (groupName)  { 
+      const data = await addNewMember(groupName, input) 
+      console.log(data)
+    }
+}
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <Typography variant="h4" className={classes.title}>Add New Member</Typography>
      {/* <h2 id="simple-modal-title">Create work spce group</h2> */}
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={onSubmit}>
         <TextField className={classes.fiels} name="groupName" onChange={e=>handleChange(e)} label="Group Name" variant="outlined"/>
         <Button color="secondary" variant="contained" type="submit">Add</Button>
       </form>

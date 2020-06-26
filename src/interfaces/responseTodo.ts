@@ -17,7 +17,7 @@ export interface User {
     email: string,
     password: string,
     Date?: Date,
-    groups?: string
+    groups?: string[]
 }
 
 export interface ResponseAllTodos {
@@ -51,3 +51,16 @@ export interface responseUpdateTodo {
     message?: string;
     todoUpdated?: Todo;
 }
+
+export interface responseNewGroup {
+    message: string;
+    MyUser?: User;
+}
+
+export interface responseUpdateGroup {
+    message: string;
+    updatedGroup?: Group;
+}
+
+export type responseGroup = responseNewGroup | responseUpdateTodo
+
