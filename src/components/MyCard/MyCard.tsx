@@ -15,7 +15,7 @@ interface Props {
 const styles = makeStyles({
     root: {
         width: '80%',
-        height: '8%',
+        height: '12%',
         margin: '4vmin 0',
         textAlign: 'left',
         position: 'relative'
@@ -43,12 +43,12 @@ const MyCard: FunctionComponent<Props> = ({ task, onClickToDelete, onClickToUpda
 
     const classes = styles()
     const [checked, setChecked] = useState(isDone)
-    /* const [LineThrough, setLineThrough] = useState('') */
+    const [LineThrough, setLineThrough] = useState(isDone)
 
     const handleChange = () => {
-        setChecked(!checked)
         onClickToUpdate(!checked)
-        /* !checked ? setLineThrough('line-through') : setLineThrough('') */
+        setChecked(!checked)
+        setLineThrough(!checked)
     }
 
     return (
@@ -60,7 +60,7 @@ const MyCard: FunctionComponent<Props> = ({ task, onClickToDelete, onClickToUpda
                 className={classes.check}
                 />
             <CardContent>
-                <Typography variant="h5" style={{textDecoration: isDone ? 'line-through' : ''}} className={classes.txt}>
+                <Typography variant="h5" style={{textDecoration: LineThrough ? 'line-through' : '' }} className={classes.txt}>
                     { task }
                 </Typography>
             </CardContent>

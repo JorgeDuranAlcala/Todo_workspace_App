@@ -9,6 +9,11 @@ import AddMember from '../../AddMember/AddMember'
 import { makeStyles, Modal, Typography, Button,  } from '@material-ui/core'
 import { createTodo } from '../../../api/todo.api'
 import { getUserProfile } from '../../../api/profile.api'
+import { Alert } from "@material-ui/lab";
+import { Cancel } from "@material-ui/icons";
+import Spinner from '../../Spinner/Spinner'
+import ChangeGroup from '../../ChangeGroup/ChangeGroup'
+import img from "../../../assets/img/adventure.jpg"
 
 interface Props {
     
@@ -26,30 +31,35 @@ const styles = makeStyles({
         position: 'relative',
         alignItems: 'center',
         height: '10%',
+        marginTop: '2.5vmin',
     },
     cont: {
         display: 'flex',
         position: 'relative',
-        height: 'inherit',
+        height: '100%',
         maxHeight: 'auto',
         flexDirection: 'column',
-        marginTop: '5vmin'
+        marginTop: '5vmin',
+        marginLeft: '4vmin'
     },
     container: {
         display: 'flex',
         flexDirection: 'column',
-        height: 'inherit',
-        maxHeight: 'auto'
+        height: '100vh',
+        maxHeight: 'auto',
     },
     paper: {
-        width: 200,
+        width: 400,
         position: 'absolute',
         left: '40%',
         top: '40%',
         padding: '4vmin 6vmin',
         background: '#fff',
     },
-
+    alert: {
+        width: '80%',
+        marginBottom: '3vmin'
+    }
 })
 
 const Dashboard = (props: Props) => {
@@ -62,11 +72,21 @@ const Dashboard = (props: Props) => {
         groups: [''],
     }
 
+    interface alertState {
+        message?: string;
+        reveal: boolean;
+        color?: "success" | "info" | "warning" | "error" | undefined
+    }
+
     const [allTodos, setAllTodos] = useState<todo[]>([])
     const [state, setState] = useState<{description: string}>({description: ''})
     const [user, setUser] = useState(initialState)
     const [open, setOpen] = useState(true)
+    const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
+    const [alert, setAlert] = useState<alertState>({
+        message: '', reveal: false, color: undefined
+    })
     const cls = styles()
     const grpName = getLocalStorage('currGroup') as string;
 
@@ -79,8 +99,9 @@ const Dashboard = (props: Props) => {
                 console.log(error)
             }
             try {       
-                const dataUser = await getUserProfile()
-                setUser(dataUser)
+               const dataUser = await getUserProfile()
+               setUser(dataUser)
+               
             } catch (error) {
                 console.log(error)
             }
@@ -93,7 +114,21 @@ const Dashboard = (props: Props) => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()    
         try {
-            const data = await createTodo(grpName, state)  
+            const data = await createTodo(grpName, state) 
+            setLoading(true)
+            setAlert({ 
+                reveal: true, 
+                color: 'success', 
+                message: "Todo added successfuly" 
+            })
+           
+            setTimeout(() => {
+                setLoading(false)
+                setAlert({
+                    reveal: false
+                })
+            }, 2000);
+
         } catch (error) {
             console.log(error)
         }
@@ -114,7 +149,8 @@ const Dashboard = (props: Props) => {
       };
     
     const handleMessage = (message: string | null, err: string | null) => {
-        console.log(message)
+        if(message) setMessage(message)
+        if(err) setMessage(err)
     }
 
     const body = (
@@ -138,17 +174,21 @@ const Dashboard = (props: Props) => {
                 >
                {body}
             </Modal>
-            <div className={cls.container}>
+            <div className={cls.container} style={{ background: `url(${img})` }}>
                 <div className={cls.headCont}>
                     <div className={cls.modalButton}>
                         <AddGroup sendMessage={handleMessage}/>
                         <AddMember/>
+                        <ChangeGroup user={user} />
                     </div>
                     <Input onSubmit={handleSubmit} handleChange={handleChange} />
                 </div>
                 <div className={cls.cont}>
-                    
-                    { allTodos && allTodos.map( (todo, index) => <Todo key={index} desc={todo.description} isDone={todo.isDone} id={todo._id} />) }      
+                    { alert.reveal && <Alert color={alert.color} className={cls.alert} title="You're todo has been added">
+                        {alert.message}
+                    </Alert>}
+                    { loading && <Spinner/> }
+                    { !loading && allTodos && allTodos.map( (todo, index) => <Todo key={index} desc={todo.description} isDone={todo.isDone} id={todo._id} />) }      
                 </div>
             </div>
         </>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { makeStyles, TextField, Card, Button, Typography } from '@material-ui/core'
 import { loginUser } from "../../../api/index";
 import { setLocalStorage } from '../../../utils/manageLocalStorage';
+import { Redirect } from 'react-router-dom';
 
 interface Props {
     
@@ -33,13 +34,14 @@ const Login = (props: Props) => {
         const [state, setState] = useState({
             email: '', password: ''
         })
+        const [redirect, setRedirect] = useState(false)
 
       const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
             const data = await loginUser(state);
             setLocalStorage('token', data.token)
-            console.log(data)
+            setRedirect(true)
         } catch (error) {
             console.log(error)
         }
@@ -56,11 +58,12 @@ const Login = (props: Props) => {
     const cls = useStyles()
     return (
         <div className={cls.root}>
+            { redirect && <Redirect to="/" /> }
             <Card className={cls.cont}>
                 <form className={cls.form} onSubmit={e=>handleSubmit(e)}>
                     <Typography variant="h4">Log In</Typography>
                     <TextField className={cls.fiels} name="email" onChange={e=>handleChange(e)} label="Email" variant="outlined"/>
-                    <TextField className={cls.fiels} name="password" onChange={e=>handleChange(e)} label="Password" variant="outlined"/>
+                    <TextField className={cls.fiels} name="password" type="password" onChange={e=>handleChange(e)} label="Password" variant="outlined"/>
                     <Button color="primary" variant="contained" type="submit">Login</Button>
                 </form>
             </Card>

@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Drawer, Typography, Divider, List, ListItem, ListItemText, AppBar, IconButton, Menu } from '@material-ui/core/';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import Navbar from '../Navbar/Navbar';
 
 interface Props {
     
@@ -51,10 +52,7 @@ const Layout: FunctionComponent<Props> = ({ children }) => {
   const classes = useStyles();
 
     return <> 
-        <AppBar className={classes.drawer} >
-          <Typography variant="h6">Todo List App</Typography>
-            { drawer }
-        </AppBar>
+        <Navbar/>
         <main className={classes.main}>
           {children}
         </main>

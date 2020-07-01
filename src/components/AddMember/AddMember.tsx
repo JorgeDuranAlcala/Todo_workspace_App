@@ -81,7 +81,7 @@ export default function SimpleModal() {
       <Typography variant="h4" className={classes.title}>Add New Member</Typography>
      {/* <h2 id="simple-modal-title">Create work spce group</h2> */}
       <form className={classes.form} onSubmit={onSubmit}>
-        <TextField className={classes.fiels} name="groupName" onChange={e=>handleChange(e)} label="Group Name" variant="outlined"/>
+        <TextField className={classes.fiels} name="groupName" onChange={e=>handleChange(e)} label="Username or Email" variant="outlined"/>
         <Button color="secondary" variant="contained" type="submit">Add</Button>
       </form>
     </div>
@@ -89,7 +89,7 @@ export default function SimpleModal() {
 
   return (
     <div>
-      <Button type="button" className={classes.btn} variant="outlined" color="secondary" onClick={handleOpen}>
+      <Button type="button" className={classes.btn} variant="contained" color="secondary" onClick={handleOpen}>
         Add Members
       </Button>
       <Modal

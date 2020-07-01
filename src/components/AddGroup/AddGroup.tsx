@@ -94,7 +94,7 @@ interface IProps {
       <Button 
         type="button" 
         className={classes.btn} 
-        variant="outlined" 
+        variant="contained" 
         color="primary" 
         onClick={handleOpen}
         >

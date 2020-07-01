@@ -1,0 +1,13 @@
+.container {
+    width: 10.75em;
+    height: 10.75em;
+    border-radius: 50%;
+    border-bottom: 8px solid blue;
+    border-top: 8px solid blue;
+    animation: spin infinite ease .5s;
+}
+
+@keyframes spin {
+    from { transform: roetate(0deg); }
+    to { transform: rotate(180deg); }
+}

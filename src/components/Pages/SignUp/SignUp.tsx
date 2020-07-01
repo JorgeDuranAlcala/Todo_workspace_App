@@ -3,6 +3,7 @@ import { registerUser } from "../../../api/index";
 import { setLocalStorage } from "../../../utils/manageLocalStorage";
 //import { User } from "../../../interfaces/responseTodo";
 import { makeStyles, TextField, Card, Button, Typography } from '@material-ui/core'
+import { Redirect } from 'react-router-dom';
 
 interface Props {
     
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
         alignItems: 'center'
     },
     cont: {
-        padding: '8vmin 2vmin'
+        padding: '4vmin 9vmin'
     },
     form: {
         padding: '1vmin',
@@ -48,14 +49,16 @@ const SignUp = (props: Props) => {
         username: '', email: '', password: '', groupName: ''
     })
 
+    const [redirect, setRedirect] = useState(false)
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
             const data = await registerUser(state);
-            console.log(data)
             const { token, group: { groupName } } = data
             setLocalStorage('currGroup', groupName)
             setLocalStorage('token', token)
+            setRedirect(true)
         } catch (error) {
             console.log(error)
         }
@@ -72,12 +75,14 @@ const SignUp = (props: Props) => {
     const cls = useStyles()
     return (
         <div className={cls.root}>
+            { redirect && <Redirect to="/login" /> }
             <Card className={cls.cont}>
                 <form className={cls.form} onSubmit={e => handleSubmit(e)}>
                     <Typography variant="h4">Sign Up</Typography>
                     <TextField className={cls.fiels} name="username" onChange={e => handleChange(e)} label="Username" variant="outlined"/>
                     <TextField className={cls.fiels} name="email" onChange={e => handleChange(e)} label="Email" variant="outlined"/>
                     <TextField className={cls.fiels} name="password" onChange={e => handleChange(e)} label="Password" type="password" variant="outlined"/>
+                    <TextField className={cls.fiels} onChange={e => handleChange(e)} label="Repeat Password" type="password" variant="outlined"/>
                     <TextField className={cls.fiels} name="groupName" onChange={e => handleChange(e)} label="Group name" variant="outlined"/>
                     <Button type="submit" color="primary" variant="contained" >Sign Up</Button>
                 </form>

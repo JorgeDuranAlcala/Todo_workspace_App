@@ -1,0 +1,12 @@
+.paper {
+    width: 400px;
+    position: absolute;
+    left: 40%;
+    top: 40%;
+    padding: 4vmin 6vmin;
+    background: #fff;
+}
+
+.btn {
+    margin-right: 2vmin;
+}
